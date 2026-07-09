@@ -29,8 +29,6 @@ public with sharing class ApplicationIntakeService {
         }
     }
 
-    // ─── Constants ───────────────────────────────────────────────────────────
-
     private static final String SOURCE_COMMUNITY = 'Community';
     private static final String SOURCE_WEBHOOK   = 'Webhook';
     private static final Set<String> VALID_SOURCES = new Set<String>{
@@ -107,11 +105,6 @@ public with sharing class ApplicationIntakeService {
             email
         );
     }
-
-    /**
-     * @param  req
-     * @return
-     */
 
     private static Account findMatchingAccount(ApplicationRequest req) {
         if (String.isNotBlank(req.federalTaxId)) {

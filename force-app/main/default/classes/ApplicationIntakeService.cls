@@ -37,11 +37,6 @@ public with sharing class ApplicationIntakeService {
         SOURCE_COMMUNITY, SOURCE_WEBHOOK
     };
 
-    /**
-     * @param  req
-     * @return
-     */
-
     public static ApplicationResult process(ApplicationRequest req) {
         try {
             validateRequest(req);

@@ -1,0 +1,98 @@
+================================================================
+       DEPLOYMENT & CONFIGURATION GUIDE
+================================================================
+
+PREREQUISITES
+----------------------------------------------------------------
+- A Salesforce Developer Org (free at developer.salesforce.com)
+- Salesforce CLI installed
+- Git installed
+
+
+STEP 1 — CLONE THE REPOSITORY
+----------------------------------------------------------------
+Run the following commands in your terminal:
+
+  git clone https://github.com/YOUR_USERNAME/salesforce-application-intake.git
+  cd salesforce-application-intake
+
+
+STEP 2 — AUTHENTICATE TO YOUR SALESFORCE ORG
+----------------------------------------------------------------
+Run:
+
+  sf org login web --alias myOrg --instance-url https://login.salesforce.com
+
+A browser window will open — log in with your Salesforce credentials.
+
+
+STEP 3 — DEPLOY THE METADATA
+----------------------------------------------------------------
+Run:
+
+  sf project deploy start --target-org myOrg
+
+This deploys all Apex classes and the LWC component to your org.
+
+
+STEP 4 — CONFIGURE THE SALESFORCE SITE
+----------------------------------------------------------------
+This step exposes the REST webhook publicly:
+
+  1. In Salesforce, go to Setup > Sites > New
+  2. Fill in:
+       - Site Label : Intake
+       - Site Name  : intake
+       - Status     : Active
+  3. Click Save
+  4. From the Site record, click "Public Access Settings"
+  5. Go to Apex Class Access > Edit
+  6. Add "ApplicationIntakeWebhook" to the Enabled list
+  7. Click Save
+
+
+STEP 5 — ADD THE LWC TO A PAGE (OPTIONAL)
+----------------------------------------------------------------
+  1. Go to Setup > Digital Experiences > All Sites
+  2. Open your site's Builder
+  3. Drag the "applicationForm" component onto any page
+  4. Click Publish
+
+
+================================================================
+       TESTING THE WEBHOOK
+================================================================
+
+Use Postman or any REST client:
+
+  Endpoint : POST https://YOUR_SITE_URL/intake/services/apexrest/application
+  Header   : Content-Type: application/json
+
+  Request Body:
+  {
+    "companyName"      : "Acme Corp",
+    "email"            : "contact@acme.com",
+    "phone"            : "555-123-4567",
+    "contactFirstName" : "John",
+    "contactLastName"  : "Doe",
+    "annualRevenue"    : 1500000
+  }
+
+  Expected Response:
+  {
+    "success"      : true,
+    "recordId"     : "0015g00000XXXXX",
+    "recordType"   : "Account",
+    "errorMessage" : null
+  }
+
+
+================================================================
+       LWC FAILURE SCENARIOS
+================================================================
+
+  Scenario               | How to Trigger            | Result
+  -----------------------|---------------------------|---------------------------
+  Missing required fields| Submit empty form         | Inline validation errors
+  Invalid email format   | Enter "notanemail"        | Email field error message
+  Server-side error      | Set Company Name = "FAIL" | Red error banner appears

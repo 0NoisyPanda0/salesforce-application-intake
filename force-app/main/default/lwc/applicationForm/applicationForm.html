@@ -1,0 +1,129 @@
+<template>
+    <lightning-card title="Submit Your Application" icon-name="standard:opportunity">
+        <div class="slds-var-p-around_medium">
+
+            <template lwc:if={isSuccess}>
+                <div class="success-container slds-align_absolute-center slds-var-p-around_large">
+                    <lightning-icon
+                        icon-name="utility:check"
+                        variant="success"
+                        size="large"
+                        class="slds-var-m-bottom_medium">
+                    </lightning-icon>
+                    <h2 class="slds-text-heading_medium slds-var-m-bottom_small">
+                        Application Submitted!
+                    </h2>
+                    <p class="slds-text-body_regular slds-text-color_weak">
+                        {successMessage}
+                    </p>
+                    <lightning-button
+                        label="Submit Another"
+                        variant="neutral"
+                        onclick={handleReset}
+                        class="slds-var-m-top_medium">
+                    </lightning-button>
+                </div>
+            </template>
+
+            <template lwc:else>
+
+                <template lwc:if={errorMessage}>
+                    <div class="error-banner slds-var-m-bottom_medium" role="alert">
+                        <lightning-icon
+                            icon-name="utility:error"
+                            variant="error"
+                            size="x-small"
+                            class="slds-var-m-right_x-small">
+                        </lightning-icon>
+                        {errorMessage}
+                    </div>
+                </template>
+
+                <fieldset class="slds-var-m-bottom_medium">
+                    <legend class="slds-text-title_caps slds-var-m-bottom_small">
+                        Company Information
+                    </legend>
+                    <lightning-input
+                        label="Company Name"
+                        name="companyName"
+                        value={formData.companyName}
+                        required
+                        onchange={handleFieldChange}
+                        class="slds-var-m-bottom_small">
+                    </lightning-input>
+                    <lightning-input
+                        label="Federal Tax ID (EIN)"
+                        name="federalTaxId"
+                        value={formData.federalTaxId}
+                        placeholder="XX-XXXXXXX"
+                        onchange={handleFieldChange}
+                        class="slds-var-m-bottom_small">
+                    </lightning-input>
+                    <lightning-input
+                        type="number"
+                        label="Annual Revenue"
+                        name="annualRevenue"
+                        value={formData.annualRevenue}
+                        formatter="currency"
+                        step="1000"
+                        onchange={handleFieldChange}>
+                    </lightning-input>
+                </fieldset>
+
+                <fieldset class="slds-var-m-bottom_medium">
+                    <legend class="slds-text-title_caps slds-var-m-bottom_small">
+                        Primary Contact
+                    </legend>
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-input
+                                label="First Name"
+                                name="contactFirstName"
+                                value={formData.contactFirstName}
+                                required
+                                onchange={handleFieldChange}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                            <lightning-input
+                                label="Last Name"
+                                name="contactLastName"
+                                value={formData.contactLastName}
+                                required
+                                onchange={handleFieldChange}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                    <lightning-input
+                        type="email"
+                        label="Email"
+                        name="email"
+                        value={formData.email}
+                        required
+                        onchange={handleFieldChange}
+                        class="slds-var-m-top_small">
+                    </lightning-input>
+                    <lightning-input
+                        type="tel"
+                        label="Phone"
+                        name="phone"
+                        value={formData.phone}
+                        required
+                        onchange={handleFieldChange}
+                        class="slds-var-m-top_small">
+                    </lightning-input>
+                </fieldset>
+
+                <div class="slds-align_absolute-center">
+                    <lightning-button
+                        label={submitLabel}
+                        variant="brand"
+                        disabled={isLoading}
+                        onclick={handleSubmit}>
+                    </lightning-button>
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

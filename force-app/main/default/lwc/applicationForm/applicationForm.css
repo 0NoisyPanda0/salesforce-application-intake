@@ -1,0 +1,32 @@
+.success-container {
+    flex-direction: column;
+    text-align: center;
+}
+
+.error-banner {
+    background-color: #fde7e9;
+    border-left: 4px solid var(--lwc-colorTextError, #c23934);
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    color: var(--lwc-colorTextError, #c23934);
+    font-size: 0.875rem;
+}
+
+fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+legend {
+    color: var(--lwc-colorTextLabel, #3e3e3c);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.0625rem;
+    text-transform: uppercase;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--lwc-colorBorderSeparator, #dddbda);
+    width: 100%;
+}
